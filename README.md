@@ -9,8 +9,6 @@ El objetivo de este repositorio es proporcionar una colección de manuales y gu�
 ## Estructura del Repositorio
 
 - **docker/:** Archivos y guías relacionadas con Docker.
-- **configuraciones/:** Archivos de configuración para diferentes servicios y entornos.
-- **instalaciones/:** Instrucciones para la instalación de software y herramientas.
 
 ## Contenido Destacado
 
