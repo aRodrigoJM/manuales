@@ -39,8 +39,29 @@ sudo pip3 install docker-compose
 
 ## Instalar Docker Compose bash desde repositorio
 
+Obtener URL de archivo a descargar en "https://github.com/docker/compose/releases"
+
+Descargar la última versión, teniendo en cuenta la salida en tu máquina de los valores de estos comandos:
+
 ```bash
-sudo curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+uname -s
+uname -m
+```
+
+En mi caso, la salida es:
+
+```bash
+linux
+aarch64
+```
+por lo que me descargo, a día de hoy, esta versión: 
+
+```bash
+https://github.com/docker/compose/releases/download/v2.24.0-birthday.10/docker-compose-linux-armv6
+```
+
+```bash
+sudo curl -L "https://github.com/docker/compose/releases/download/version/distribution/version" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 ```
 
