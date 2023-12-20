@@ -1,0 +1,58 @@
+FROM ubuntu:20.04
+
+ARG DEBIAN_FRONTEND="noninteractive"
+ENV TERM="xterm" LANG="C.UTF-8" LC_ALL="C.UTF-8"
+
+# Update and get dependencies
+RUN apt update && apt install -y git wget nano curl p7zip-full unzip screen gnupg systemctl
+
+# # prepare sourcelist
+RUN \
+    echo deb https://downloads.plex.tv/repo/deb public main | tee /etc/apt/sources.list.d/plexmediaserver.list \
+    && \
+    curl https://downloads.plex.tv/plex-keys/PlexSign.key | apt-key add
+# RUN \
+#     echo deb https://downloads.plex.tv/repo/deb public main | tee /etc/apt/sources.list.d/plex.list \
+#     && \
+#     curl https://downloads.plex.tv/plex-keys/PlexSign.key | apt-key add -
+
+# Update and get dependencies and install plexmediaserver.deb
+RUN apt update -y
+
+# # deb
+# COPY plexmediaserver_1.29.0.6244-819d3678c_arm64.deb /
+# RUN dpkg -i /plexmediaserver_1.29.0.6244-819d3678c_arm64.deb
+
+# plexmediaserver
+RUN apt install -y plexmediaserver
+
+# # Add user
+# RUN \
+#     useradd -U -d /config -s /bin/false plex && \
+#     usermod -G users plex \
+
+# ## directories
+# RUN mkdir -p /opt/plexmedia/movies
+# RUN mkdir /opt/plexmedia/series
+# RUN chown -R plex:plex /opt/plexmedia
+
+# # Setup directories
+#     && \
+#     mkdir -p \
+#       /config \
+#       /transcode \
+#       /data
+
+# Cleanup
+RUN \
+    apt-get -y autoremove && \
+    apt-get -y clean && \
+    rm -rf /var/lib/apt/lists/* && \
+    rm -rf /tmp/* && \
+    rm -rf /var/tmp/*
+
+## set final
+RUN echo "final"
+    
+EXPOSE 32400/tcp 8324/tcp 32469/tcp 1900/udp 32410/udp 32412/udp 32413/udp 32414/udp
+VOLUME /config /transcode
