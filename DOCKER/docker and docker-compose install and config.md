@@ -59,6 +59,7 @@ por lo que me descargo, a día de hoy, esta versión:
 ```bash
 https://github.com/docker/compose/releases/download/v2.24.0-birthday.10/docker-compose-linux-armv6
 ```
+![Alt text](image.png)
 
 ```bash
 sudo curl -L "https://github.com/docker/compose/releases/download/version/distribution/version" -o /usr/local/bin/docker-compose
