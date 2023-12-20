@@ -1,7 +1,5 @@
 # Docker y Raspberry: Instalar Docker y Docker Compose
 
-Actualizado el 4 de diciembre de 2019 por atareao
-
 ---
 
 ## Introducción
@@ -51,3 +49,6 @@ sudo chmod +x /usr/local/bin/docker-compose
 ```bash
 sudo pip3 uninstall docker-compose
 ```
+
+---
+Contenido original de: https://atareao.es/como/docker-y-raspberry-instalar-docker-y-docker-compose/
