@@ -16,18 +16,7 @@ El objetivo de este repositorio es proporcionar una colección de manuales y gu�
 
 ### Docker
 
-- [Cómo instalar Docker en Ubuntu](docker/instalar-docker-ubuntu.md)
-- [Ejemplo de archivo docker-compose para proyecto X](docker/docker-compose-ejemplo.md)
-
-### Configuraciones
-
-- [Configuración avanzada de servicio Y](configuraciones/servicioY-configuracion.md)
-- [Ajustes recomendados para entorno Z](configuraciones/entornoZ-ajustes.md)
-
-### Instalaciones
-
-- [Guía de instalación de herramienta A](instalaciones/herramientaA-instalacion.md)
-- [Pasos para instalar paquete B en CentOS](instalaciones/paqueteB-centos.md)
+- [Cómo instalar Docker en Linux](DOCKER/Install_docker_and_docker-compose.md)
 
 ## Contribuciones
 
