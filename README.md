@@ -14,7 +14,9 @@ El objetivo de este repositorio es proporcionar una colección de manuales y gu�
 
 ### Docker
 
-- [Cómo instalar Docker en Linux](DOCKER/Install_docker_and_docker-compose.md)
+- [Cómo instalar Docker y docker-compose en Linux](DOCKER/Install_docker_and_docker-compose.md)
+
+- Servicios docker a instalr con docker-compose
     - [Portainer](DOCKER/portainer)
     - [pihole-vpn](DOCKER/pihole-vpn)
     - [plex](DOCKER/plex)
