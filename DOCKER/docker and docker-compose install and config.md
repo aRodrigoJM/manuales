@@ -61,6 +61,8 @@ https://github.com/docker/compose/releases/download/v2.24.0-birthday.10/docker-c
 ```
 ![Alt text](image.png)
 
+Instalamos y damos permisos:
+
 ```bash
 sudo curl -L "https://github.com/docker/compose/releases/download/version/distribution/version" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
