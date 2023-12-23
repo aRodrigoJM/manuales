@@ -9,25 +9,18 @@ El objetivo de este repositorio es proporcionar una colección de manuales y gu�
 ## Estructura del Repositorio
 
 - **docker/:** Archivos y guías relacionadas con Docker.
-- **configuraciones/:** Archivos de configuración para diferentes servicios y entornos.
-- **instalaciones/:** Instrucciones para la instalación de software y herramientas.
 
 ## Contenido Destacado
 
 ### Docker
 
-- [Cómo instalar Docker en Ubuntu](docker/instalar-docker-ubuntu.md)
-- [Ejemplo de archivo docker-compose para proyecto X](docker/docker-compose-ejemplo.md)
+- [Cómo instalar Docker y docker-compose en Linux](DOCKER/Install_docker_and_docker-compose.md)
 
-### Configuraciones
-
-- [Configuración avanzada de servicio Y](configuraciones/servicioY-configuracion.md)
-- [Ajustes recomendados para entorno Z](configuraciones/entornoZ-ajustes.md)
-
-### Instalaciones
-
-- [Guía de instalación de herramienta A](instalaciones/herramientaA-instalacion.md)
-- [Pasos para instalar paquete B en CentOS](instalaciones/paqueteB-centos.md)
+- Servicios docker a instalr con docker-compose
+    - [Portainer](DOCKER/portainer)
+    - [pihole-vpn](DOCKER/pihole-vpn)
+    - [plex](DOCKER/plex)
+    - [transmission](DOCKER/transmission)
 
 ## Contribuciones
 
