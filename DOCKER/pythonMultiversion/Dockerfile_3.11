@@ -1,0 +1,12 @@
+ARG IMG_NAME
+ARG VERSION
+
+FROM ${IMG_NAME}:${VERSION}
+
+RUN apt update && apt install -y nano ffmpeg
+
+RUN pip install --upgrade pip
+
+COPY createStructureProjects.sh /SCRIPTS/
+
+WORKDIR /usr/src/app
