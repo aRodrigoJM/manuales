@@ -1,0 +1,77 @@
+##########################################################################################################
+###      _            _                                                                             _  ###
+###     | |          | |                                                                           | | ###
+###   __| | ___   ___| | _____ _ __ ______ ___ ___  _ __ ___  _ __   ___  ___  ___  _   _ _ __ ___ | | ###
+###  / _` |/ _ \ / __| |/ / _ \ '__|______/ __/ _ \| '_ ` _ \| '_ \ / _ \/ __|/ _ \| | | | '_ ` _ \| | ###
+### | (_| | (_) | (__|   <  __/ |        | (_| (_) | | | | | | |_) | (_) \__ \  __/| |_| | | | | | | | ###
+###  \__,_|\___/ \___|_|\_\___|_|         \___\___/|_| |_| |_| .__/ \___/|___/\___(_)__, |_| |_| |_|_| ###
+###                                                          | |                     __/ |             ###
+###                                                          |_|                    |___/              ###
+###                                                                                                    ###
+##########################################################################################################
+
+### In anfitrion machine ###
+### To install docker services (into .docker directory):
+# docker-compose-v1.exe up -d --force-recreate --build
+# docker-compose up -d --force-recreate --build
+### To entry in php-fpm container:
+# docker exec -it xx_COMPOSE_PROJECT_NAME_php_fpm_PHP_VER bash
+### To entry in container with user root:
+# docker exec -it -u root xx_COMPOSE_PROJECT_NAME_php_fpm_PHP_VER bash
+
+### INIT docker-composer FILE ###
+# version: '3.4'
+version: '3.9'
+
+services:
+  plex:
+    container_name: ${PREFIX_PROJECT_NAME}_${SO}
+    # image: lscr.io/linuxserver/plex:latest
+    ## build
+    build:
+      context: ./ ### dockerfiles dir
+      dockerfile: Dockerfile.${SO} ### Dockerfile
+      # dockerfile: Dockerfile.server ### Dockerfile
+      # dockerfile: Dockerfile.aarch64 ### Dockerfile.aarch64
+      # dockerfile: Dockerfile.armhf ### Dockerfile.armhf
+
+    # ## image
+    # image: plexinc/pms-docker
+
+    environment:
+      TZ: ${TIMEZONE}
+      USERID: ${PUID}
+      GROUPID: ${PGID}
+      VERSION: docker
+      # PLEX_CLAIM_: #optional
+      # ADVERTISE_IP: http://<hostIPAddress>:32400/
+
+    # user: ${PUID}:${PUID}
+
+    volumes:
+      - /media/pi/2_TERAS:/2_TERAS
+      - /media/pi/Lexar_32GB/plexConfig/config:/config
+      - /media/pi/Lexar_32GB/plexConfig/data:/data
+      - /media/pi/Lexar_32GB/plexConfig/transcode:/transcode
+
+    # EXPOSE 32400/tcp 1900/udp 3005/tcp 5353/udp 8324/tcp 32410/udp 32412/udp 32413/udp 32414/udp 32469/tcp
+
+    restart: unless-stopped
+    hostname: ${COMPOSE_PROJECT_NAME}
+    network_mode: host
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/ || exit 1"]
+      interval: 5m
+      timeout: 3s
+      retries: 3
+
+#     networks:
+#       - default
+#     tmpfs:
+#       - /tmp
+#     stdin_open: true
+#     tty: true
+
+# networks:
+#   default:
