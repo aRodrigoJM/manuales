@@ -1,0 +1,50 @@
+ARG SO
+ARG SO_VER
+ARG DEBIAN_FRONTEND=noninteractive
+
+FROM ${SO}:${SO_VER}
+# FROM ubuntu:18.04
+# FROM ubuntu:18.04 AS builder
+
+# RUN apt-get update -y && apt-get install -y \
+#     screen wget nano git htop curl unzip \
+#     build-essential cmake pkg-config libcurl4-openssl-dev libssl-dev libevent-dev zlib1g-dev xz-utils \
+#     libgtkmm-3.0-dev libminiupnpc-dev libnatpmp-dev libsystemd-dev libpsl-dev libb64-dev gettext \
+#     && apt-get clean
+
+RUN apt-get update -y && apt-get install -y \
+    screen wget nano git htop curl unzip \
+    build-essential cmake pkg-config libcurl4-openssl-dev libssl-dev libevent-dev zlib1g-dev xz-utils libminiupnpc-dev gettext \
+    python3 
+
+# Descarga y compilación de Transmission 4.0.6
+WORKDIR /tmp
+# RUN curl -LO https://github.com/transmission/transmission/releases/download/4.0.6/transmission-4.0.6.tar.xz
+
+# RUN curl -LO https://github.com/transmission/transmission/releases/download/4.0.6/transmission-4.0.6.tar.xz
+COPY transmission-4.0.6.tar.xz /tmp/transmission-4.0.6.tar.xz
+
+RUN tar xf transmission-4.0.6.tar.xz && \
+    rm -fr transmission-4.0.6.tar.xz && \
+    cd transmission-4.0.6 && \
+    
+    cmake -B build \
+        -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+        -DENABLE_GTK=OFF \
+        -DENABLE_QT=OFF \
+        -DENABLE_NLS=OFF && \
+
+    cd build && \
+    cmake --build . && \
+    cmake --install .
+
+# Limpiar archivos temporales y reducir el tamaño de la imagen
+WORKDIR /
+RUN apt-get remove --purge -y build-essential cmake pkg-config && \
+    apt-get autoremove -y && apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+WORKDIR /
+COPY run_tar.sh /run.sh
+
+CMD ["sh","run.sh"]
