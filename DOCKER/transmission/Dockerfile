@@ -9,8 +9,8 @@ FROM ${SO}:${SO_VER}
 RUN apt-get update -y
 RUN apt-get install -y screen wget nano git htop curl unzip
 
-RUN apt-get update
-RUN apt-get install -y transmission-cli transmission-common transmission-daemon
+RUN apt-get update -y && \
+    apt-get install -y transmission-cli transmission-common transmission-daemon
 
 WORKDIR /
 COPY run.sh /run.sh

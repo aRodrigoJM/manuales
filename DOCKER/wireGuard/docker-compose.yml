@@ -1,0 +1,67 @@
+
+### In anfitrion machine ###
+### To install docker services (into .docker directory):
+# docker-compose-v1.exe up -d --force-recreate --build
+# docker-compose up -d --force-recreate --build
+### To entry in php-fpm container:
+# docker exec -it xx_COMPOSE_PROJECT_NAME_php_fpm_PHP_VER bash
+### To entry in container with user root:
+# docker exec -it -u root xx_COMPOSE_PROJECT_NAME_php_fpm_PHP_VER bash
+
+## shor client
+# docker exec -it 00_pihole-vpn_vpn /app/show-peer movilPana
+
+# version: "3.4"
+
+# More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
+services:
+
+  wireguard:
+    container_name: ${PREFIX_PROJECT_NAME}_vpn
+    image: ${vpn_IMAGE}:${vpn_VERSION}
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIMEZONE}
+
+      # - SERVERURL=auto
+      # - SERVERPORT=51820
+      # - PEERDNS=auto
+      # - PEERS=3 #change to match how many devies you want to use Wireguard on
+
+      # 
+      - SERVERURL=subdomain.duckdns.org
+      - SERVERPORT=5319
+      - PEERDNS=auto
+      - PEERS=invitado1,invitado2,invitado3,invitado4
+
+      - INTERNAL_SUBNET=10.13.13.0 #optional
+      - ALLOWEDIPS=0.0.0.0/0 #optional
+      - LOG_CONFS=true #optional
+
+    volumes:
+      - ./config:/config
+      - ./lib/modules:/lib/modules #do not change
+
+    ports:
+      - ${VPN_PORT}:51820/udp
+    # hostname: ${COMPOSE_PROJECT_NAME}
+    # network_mode: host
+
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    restart: unless-stopped
+
+    networks:
+      - ${COMPOSE_PROJECT_NAME}
+
+    # stdin_open: true
+    # tty: true
+
+networks:
+  wireguard:
+    name: ${COMPOSE_PROJECT_NAME}
+    driver: bridge

@@ -1,65 +1,34 @@
-##########################################################################################################
-###      _            _                                                                             _  ###
-###     | |          | |                                                                           | | ###
-###   __| | ___   ___| | _____ _ __ ______ ___ ___  _ __ ___  _ __   ___  ___  ___  _   _ _ __ ___ | | ###
-###  / _` |/ _ \ / __| |/ / _ \ '__|______/ __/ _ \| '_ ` _ \| '_ \ / _ \/ __|/ _ \| | | | '_ ` _ \| | ###
-### | (_| | (_) | (__|   <  __/ |        | (_| (_) | | | | | | |_) | (_) \__ \  __/| |_| | | | | | | | ###
-###  \__,_|\___/ \___|_|\_\___|_|         \___\___/|_| |_| |_| .__/ \___/|___/\___(_)__, |_| |_| |_|_| ###
-###                                                          | |                     __/ |             ###
-###                                                          |_|                    |___/              ###
-###                                                                                                    ###
-###                                                                                                    ###
-##########################################################################################################
+# docker compose up -d --force-recreate --build
 
-### In anfitrion machine ###
-### To install docker services (into .docker directory):
-# docker-compose-v1.exe up -d --force-recreate --build
-# docker-compose up -d --force-recreate --build
-### To entry in php-fpm container:
-# docker exec -it xx_COMPOSE_PROJECT_NAME_php_fpm_PHP_VER bash
-### To entry in container with user root:
-# docker exec -it -u root xx_COMPOSE_PROJECT_NAME_php_fpm_PHP_VER bash
-
-version: "3"
+# version: "3"
 
 networks:
-    internal:
-        driver: bridge
+  internal:
+    driver: bridge
 
 services:
-    transmission:
-        container_name: ${PREFIX_PROJECT_NAME}_${SO}
-
-        # build: /home/pi/DOCKER/dockerfiles/transmission/
-        build:
-            context: . ### Dockerfile
-            args:
-                SO: ${SO}
-                SO_VER: ${SO_VER}
-
-        user: ${PUID}:${PUID}
-        environment:
-            TZ: 'Europe/Madrid'
-            user: ${TRANSMISSION_USER}
-            password: ${TRANSMISSION_PASSWORD}
-            USERID: ${PUID}
-            GROUPID: ${PGID}
-
-        volumes:
-            - './config:/etc/transmission-daemon'
-            - './watch:/watch'
-            - '/media/pi/2_TERAS/BIBLIOTECA/TORRENTS/incompletos:/media/incompletos'
-            - '/media/pi/2_TERAS/BIBLIOTECA/TORRENTS/completos:/media/completos'
-
-        ports:
-            - ${PORT_9091}:9091
-            - ${PORT_51413}:51413
-            - ${PORT_51413_udp}:51413/udp
-
-        restart: unless-stopped
-        networks:
-            - internal
-        
-        stdin_open: true # docker run -i
-        tty: true        # docker run -t
-        
+  transmission:
+    container_name: "${PREFIX_PROJECT_NAME}_${SUFFIX}"
+    build:
+      context: /home/pi/DOCKER/transmission
+      dockerfile: Dockerfile_tar
+      args:
+        - SO=${SO}
+        - SO_VER=${SO_VER}
+    user: "${PUID}:${PGID}"
+    environment:
+      - TZ=Europe/Madrid
+      - USER=${TRANSMISSION_USER}
+      - PASSWORD=${TRANSMISSION_PASSWORD}
+    volumes:
+      - ./config:/config
+      - ./watch:/watch
+      - '/media/8_TERAS/BIBLIOTECA/TORRENTS/incompletos:/media/incompletos'
+      - '/media/8_TERAS/BIBLIOTECA/TORRENTS/completos:/media/completos'
+    ports:
+      - "${PORT_9091}:9091"
+      - "${PORT_51413}:51413"
+      - "${PORT_51414}:51414/udp"
+    restart: unless-stopped
+    networks:
+      - internal
